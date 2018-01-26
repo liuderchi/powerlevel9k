@@ -110,7 +110,13 @@ CURRENT_BG='NONE'
 # The latter three can be omitted,
 set_default last_left_element_index 1
 set_default POWERLEVEL9K_WHITESPACE_BETWEEN_LEFT_SEGMENTS " "
+set_default POWERLEVEL9K_INVERT_DISPLAY true    # NOTE custom var to control display color
+pickNonBlack() { if [ "$1" = "black" ]; then echo -n "$2"; else echo -n "$1"; fi }
 left_prompt_segment() {
+  if [ "$POWERLEVEL9K_INVERT_DISPLAY" = true ]; then
+    4="$(pickNonBlack $3 $4)"
+    3=black
+  fi
   local current_index=$2
   # Check if the segment should be joined with the previous one
   local joined
@@ -179,12 +185,20 @@ left_prompt_segment() {
 
 # End the left prompt, closes the final segment.
 left_prompt_end() {
+  echo -n "%k"
+
   if [[ -n $CURRENT_BG ]]; then
-    echo -n "%k%F{$CURRENT_BG}$(print_icon 'LEFT_SEGMENT_SEPARATOR')"
-  else
-    echo -n "%k"
+    echo -n "%F{$CURRENT_BG}"
+    if [ "$POWERLEVEL9K_INVERT_DISPLAY" = false ]; then
+      echo -n "$(print_icon 'LEFT_SEGMENT_SEPARATOR')"
+    fi
   fi
-  echo -n "%f$(print_icon 'LEFT_SEGMENT_END_SEPARATOR')"
+  echo -n "%f"
+
+  if [ "$POWERLEVEL9K_INVERT_DISPLAY" = true ]; then
+    echo -n "$(print_icon 'LEFT_SUBSEGMENT_SEPARATOR')"
+  fi
+  echo -n "$(print_icon 'LEFT_SEGMENT_END_SEPARATOR')"
   CURRENT_BG=''
 }
 
@@ -203,6 +217,10 @@ CURRENT_RIGHT_BG='NONE'
 set_default last_right_element_index 1
 set_default POWERLEVEL9K_WHITESPACE_BETWEEN_RIGHT_SEGMENTS " "
 right_prompt_segment() {
+  if [ "$POWERLEVEL9K_INVERT_DISPLAY" = true ]; then
+    4="$(pickNonBlack $3 $4)"
+    3=black
+  fi
   local current_index=$2
 
   # Check if the segment should be joined with the previous one
