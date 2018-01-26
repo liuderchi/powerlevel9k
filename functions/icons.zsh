@@ -148,7 +148,7 @@ case $POWERLEVEL9K_MODE in
       VCS_GIT_GITLAB_ICON            $'\uF296 '             # 
       VCS_HG_ICON                    $'\uF0C3 '             # 
       VCS_SVN_ICON                   '(svn) '
-      RUST_ICON                      $'\uE6A8'              #  
+      RUST_ICON                      $'\uE6A8'              # 
       PYTHON_ICON                    $'\ue63c'             # 
       SWIFT_ICON                     ''
       GO_ICON                        ''
