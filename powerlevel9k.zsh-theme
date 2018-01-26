@@ -1257,6 +1257,24 @@ prompt_nvm() {
   $1_prompt_segment "$0" "$2" "magenta" "black" "${node_version:1}" 'NODE_ICON'
 }
 
+# Lockfile for npm
+prompt_npm_lockfile() {
+  if [ -f $(pwd)/package-lock.json ]; then "$1_prompt_segment" "$0" "$2" "88" "$DEFAULT_COLOR" '' 'NPM_LOCK_ICON'; fi
+  # if [ -f $(pwd)/package-lock.json ]; then "$1_prompt_segment" "$0" "$2" "88" "$DEFAULT_COLOR" 'npm'; fi
+  # if [ -f $(pwd)/package-lock.json ]; then "$1_prompt_segment" "$0" "$2" "88" "$DEFAULT_COLOR" 'npm' 'LOCK_ICON'; fi
+  # if [ -f $(pwd)/package-lock.json ]; then "$1_prompt_segment" "$0" "$2" "88" "$DEFAULT_COLOR" '' 'NPM_ICON'; fi
+}
+
+# Lockfile for yarn
+prompt_yarn_lockfile() {
+  if [ -f $(pwd)/yarn.lock ]; then "$1_prompt_segment" "$0" "$2" "24" "$DEFAULT_COLOR" '' 'YARN_LOCK_ICON'; fi
+  # if [ -f $(pwd)/yarn.lock ]; then "$1_prompt_segment" "$0" "$2" "24" "$DEFAULT_COLOR" 'yarn'; fi
+  # if [ -f $(pwd)/yarn.lock ]; then "$1_prompt_segment" "$0" "$2" "24" "$DEFAULT_COLOR" 'yarn' 'LOCK_ICON'; fi
+  # if [ -f $(pwd)/yarn.lock ]; then "$1_prompt_segment" "$0" "$2" "24" "$DEFAULT_COLOR" 'yarn' ''; fi
+}
+
+# TODO travis config existence
+
 ################################################################
 # Segment to display NodeEnv
 prompt_nodeenv() {
@@ -1939,8 +1957,20 @@ prompt_powerlevel9k_setup() {
       fi
   fi
 
-  defined POWERLEVEL9K_LEFT_PROMPT_ELEMENTS || POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-  defined POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS || POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
+  # NOTE customize your left|right prompt with candidates: context ip os_icon node_version command_execution_time ram load
+  # https://github.com/bhilburn/powerlevel9k#available-prompt-segments
+  defined POWERLEVEL9K_LEFT_PROMPT_ELEMENTS || POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+  defined POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS || POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( \
+    status \
+    command_execution_time \
+    root_indicator \
+    background_jobs \
+    npm_lockfile \
+    yarn_lockfile \
+    node_version \
+    ram \
+    dir_writable \
+    time)
 
   # Display a warning if deprecated segments are in use.
   typeset -AH deprecated_segments
