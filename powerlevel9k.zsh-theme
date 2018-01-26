@@ -1418,7 +1418,7 @@ prompt_kubecontext() {
     if [[ -z "$k8s_namespace" ]]; then
       k8s_namespace="default"
     fi
-  
+
     local k8s_final_text=""
 
     if [[ "$k8s_context" == "k8s_namespace" ]]; then
@@ -1427,8 +1427,8 @@ prompt_kubecontext() {
     else
       k8s_final_text="$k8s_context/$k8s_namespace"
     fi
-  
-    
+
+
     "$1_prompt_segment" "$0" "$2" "magenta" "white" "$k8s_final_text" "KUBERNETES_ICON"
   fi
 }
