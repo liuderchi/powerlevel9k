@@ -52,7 +52,7 @@ printSizeHumanReadable() {
     index=$(( index + 1 ))
   done
 
-  echo "$size${extension[$index]}"
+  echo "$(printf '%.1f' $size) ${extension[$index]}B"
 }
 
 # Gets the first value out of a list of items that is not empty.
