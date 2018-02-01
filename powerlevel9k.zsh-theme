@@ -1481,6 +1481,29 @@ prompt_status() {
   fi
 }
 
+prompt_fail_status() {    # NOTE show cross icon only when abnormal exit
+  local ec_text
+  local ec_sum
+  local ec
+
+  if [[ $POWERLEVEL9K_STATUS_SHOW_PIPESTATUS == true ]]; then
+    ec_text=$(exit_code_or_status "${RETVALS[1]}")
+    ec_sum=${RETVALS[1]}
+
+    for ec in "${(@)RETVALS[2,-1]}"; do
+      ec_text="${ec_text}|$(exit_code_or_status "$ec")"
+      ec_sum=$(( $ec_sum + $ec ))
+    done
+  else
+    ec_text=$(exit_code_or_status "${RETVAL}")
+    ec_sum=${RETVAL}
+  fi
+
+  if (( ec_sum > 0 )); then
+    "$1_prompt_segment" "$0_ERROR" "$2" "$DEFAULT_COLOR" "red" "" 'FAIL_ICON'
+  fi
+}
+
 ################################################################
 # Segment to display Swap information
 prompt_swap() {
@@ -1955,7 +1978,7 @@ prompt_powerlevel9k_setup() {
 
   # NOTE customize your left|right prompt with candidates: context ip os_icon node_version command_execution_time ram load
   # https://github.com/bhilburn/powerlevel9k#available-prompt-segments
-  defined POWERLEVEL9K_LEFT_PROMPT_ELEMENTS || POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs)
+  defined POWERLEVEL9K_LEFT_PROMPT_ELEMENTS || POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(fail_status dir vcs)
   defined POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS || POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=( \
     status \
     command_execution_time \
