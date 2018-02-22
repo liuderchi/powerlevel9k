@@ -1333,6 +1333,24 @@ prompt_cpu() {
   "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" "$res" 'CPU_ICON'
 }
 
+# Show status of git config name, email, gpg option
+prompt_gconf() {
+  # NOTE 3 types of result: match-github / match-work / undefined
+  if [[ $(git config user.email) == $EMAILS[1] ]] && \
+    [[ $(git config user.name) == $GH_LOGIN ]] && \
+    [[ $(git config commit.gpgsign) == 'true' ]] && \
+    ; then
+      "$1_prompt_segment" "$0" "$2" "22" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+  elif [[ $(git config user.email) == $EMAILS[2] ]] && \
+    [[ $(git config user.name) == $LOGIN ]] && \
+    [[ $(git config commit.gpgsign) != 'true' ]] && \
+    ; then
+      "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+  else
+      "$1_prompt_segment" "$0" "$2" "52" "$DEFAULT_COLOR" '?' 'VCS_GIT_ICON'
+  fi
+}
+
 ################################################################
 # Segment to display rbenv information
 # https://github.com/rbenv/rbenv#choosing-the-ruby-version
@@ -1994,6 +2012,7 @@ prompt_powerlevel9k_setup() {
     command_execution_time \
     root_indicator \
     background_jobs \
+    gconf \
     npm_lockfile \
     yarn_lockfile \
     node_version \
