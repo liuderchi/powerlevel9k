@@ -1268,9 +1268,13 @@ prompt_ram() {
   "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" "$(printSizeHumanReadable "$ramfree" $base)" 'RAM_ICON'
 }
 
-################################################################
-# Segment to display rbenv information
-set_default POWERLEVEL9K_RBENV_ALWAYS false
+# Show cpu usage
+prompt_cpu() {
+  local res=$(ps -A -o %cpu | awk '{s+=$1} END {print s}')
+  "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" "$res" 'CPU_ICON'
+}
+
+# rbenv information
 prompt_rbenv() {
   if which rbenv 2>/dev/null >&2; then
     local rbenv_version_name="$(rbenv version-name)"
@@ -1868,6 +1872,7 @@ prompt_powerlevel9k_setup() {
     yarn_lockfile \
     node_version \
     ram \
+    cpu \
     dir_writable \
     time)
 
