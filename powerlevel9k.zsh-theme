@@ -1998,9 +1998,10 @@ prompt_powerlevel9k_setup() {
     yarn_lockfile \
     node_version \
     ram \
-    cpu \
+    # cpu \
     dir_writable \
-    time)
+    # time \
+    )
 
   # Display a warning if deprecated segments are in use.
   typeset -AH deprecated_segments
