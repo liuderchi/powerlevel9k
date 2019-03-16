@@ -1316,19 +1316,26 @@ prompt_cpu() {
 
 # Show status of git config name, email, gpg option
 prompt_gconf() {
-  # NOTE 3 types of result: match-github / match-work / undefined
-  if [[ $(git config user.email) == $EMAILS[1] ]] && \
-    [[ $(git config user.name) == $GH_LOGIN ]] && \
-    [[ $(git config commit.gpgsign) == 'true' ]] && \
+  # NOTE 4 types of result: match-github / match-work (x2) / undefined
+  if [[ $(git config commit.gpgsign) == 'true' ]] && \
     ; then
-      "$1_prompt_segment" "$0" "$2" "22" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
-  elif [[ $(git config user.email) == $EMAILS[2] ]] && \
-    [[ $(git config user.name) == $LOGIN ]] && \
-    [[ $(git config commit.gpgsign) != 'true' ]] && \
-    ; then
-      "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+      if [[ $(git config user.email) == $EMAILS[1] ]] && \
+        [[ $(git config user.name) == $GH_LOGIN ]] && \
+        ; then
+          "$1_prompt_segment" "$0" "$2" "22" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+      elif [[ $(git config user.email) == $EMAILS[2] ]] && \
+        [[ $(git config user.name) == $USER_NAME_FULL ]] && \
+        ; then
+          "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+      elif [[ $(git config user.email) == $EMAILS[3] ]] && \
+        [[ $(git config user.name) == $USER_NAME_FULL ]] && \
+        ; then
+          "$1_prompt_segment" "$0" "$2" "55" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+      else
+        "$1_prompt_segment" "$0" "$2" "52" "$DEFAULT_COLOR" '？user' 'VCS_GIT_ICON'
+      fi
   else
-      "$1_prompt_segment" "$0" "$2" "52" "$DEFAULT_COLOR" '?' 'VCS_GIT_ICON'
+      "$1_prompt_segment" "$0" "$2" "52" "$DEFAULT_COLOR" '？' 'VCS_GIT_ICON' ''
   fi
 }
 
