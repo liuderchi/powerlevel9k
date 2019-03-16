@@ -1219,7 +1219,7 @@ prompt_node_version() {
   [[ -z "${node_version}" ]] && return
 
   # "$1_prompt_segment" "$0" "$2" "green" "white" "${node_version:1}" 'NODE_ICON'
-  "$1_prompt_segment" "$0" "$2" "22" "$DEFAULT_COLOR" "${node_version:1}" 'NODE_ICON'
+  "$1_prompt_segment" "$0" "$2" "28" "$DEFAULT_COLOR" "${node_version:1}" 'NODE_ICON'
 }
 
 ################################################################
@@ -1313,7 +1313,7 @@ prompt_ram() {
   fi
 
   # "$1_prompt_segment" "$0" "$2" "yellow" "$DEFAULT_COLOR" "$(printSizeHumanReadable "$ramfree" $base)" 'RAM_ICON'
-  "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" "$(printSizeHumanReadable "$ramfree" $base)" 'RAM_ICON'
+  "$1_prompt_segment" "$0" "$2" "130" "$DEFAULT_COLOR" "$(printSizeHumanReadable "$ramfree" $base)" 'RAM_ICON'
 }
 
 # Show cpu usage
@@ -1334,16 +1334,16 @@ prompt_git_config() {
       elif [[ $(git config user.email) == $EMAILS[2] ]] && \
         [[ $(git config user.name) == $USER_NAME_FULL ]] && \
         ; then
-          "$1_prompt_segment" "$0" "$2" "166" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
+          "$1_prompt_segment" "$0" "$2" "130" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
       elif [[ $(git config user.email) == $EMAILS[3] ]] && \
         [[ $(git config user.name) == $USER_NAME_FULL ]] && \
         ; then
           "$1_prompt_segment" "$0" "$2" "55" "$DEFAULT_COLOR" '' 'VCS_GIT_ICON'
       else
-        "$1_prompt_segment" "$0" "$2" "52" "$DEFAULT_COLOR" '？user' 'VCS_GIT_ICON'
+        "$1_prompt_segment" "$0" "$2" "124" "$DEFAULT_COLOR" '？user' 'VCS_GIT_ICON'
       fi
   else
-      "$1_prompt_segment" "$0" "$2" "52" "$DEFAULT_COLOR" '？' 'VCS_GIT_ICON' ''
+      "$1_prompt_segment" "$0" "$2" "124" "$DEFAULT_COLOR" '？' 'VCS_GIT_ICON' ''
   fi
 }
 
