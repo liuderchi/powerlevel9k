@@ -1238,6 +1238,16 @@ prompt_nvm() {
   $1_prompt_segment "$0" "$2" "magenta" "black" "${node_version:1}" 'NODE_ICON'
 }
 
+# npm config
+prompt_npm_config() {
+  if [[ $(npm config get registry) == $NPM_REGISTRY ]] && \
+    [[ $(npm config get production) == 'false' ]] && \
+    [[ $(npm config get optional) == 'true' ]] && \
+    ; then
+      "$1_prompt_segment" "$0" "$2" "55" "$DEFAULT_COLOR" 'npm' ''  # 'NPM_ICON'
+  fi
+}
+
 # Lockfile for npm
 prompt_npm_lockfile() {
   if [ -f $(pwd)/package-lock.json ]; then "$1_prompt_segment" "$0" "$2" "88" "$DEFAULT_COLOR" '' 'NPM_LOCK_ICON'; fi
@@ -1315,7 +1325,7 @@ prompt_cpu() {
 }
 
 # Show status of git config name, email, gpg option
-prompt_gconf() {
+prompt_git_config() {
   # NOTE 4 types of result: match-github / match-work (x2) / undefined
   if [[ $(git config commit.gpgsign) == 'true' ]] && \
     ; then
@@ -2000,7 +2010,8 @@ prompt_powerlevel9k_setup() {
     command_execution_time \
     root_indicator \
     background_jobs \
-    gconf \
+    git_config \
+    npm_config \
     npm_lockfile \
     yarn_lockfile \
     node_version \
