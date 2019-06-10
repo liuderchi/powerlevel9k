@@ -111,6 +111,7 @@ CURRENT_BG='NONE'
 set_default last_left_element_index 1
 set_default POWERLEVEL9K_WHITESPACE_BETWEEN_LEFT_SEGMENTS " "
 set_default POWERLEVEL9K_INVERT_DISPLAY true    # NOTE custom var to control display color
+set_default POWERLEVEL9K_RPROMPT true    # NOTE custom var to control right prompt display
 pickNonBlack() { if [ "$1" = "black" ]; then echo -n "$2"; else echo -n "$1"; fi }
 left_prompt_segment() {
   if [ "$POWERLEVEL9K_INVERT_DISPLAY" = true ]; then
@@ -1878,6 +1879,10 @@ build_left_prompt() {
 
 # Right prompt
 build_right_prompt() {
+  if [ "$POWERLEVEL9K_RPROMPT" != true ]; then
+    echo -n "%E"
+    return ;
+  fi
   local index=1
   local element
   for element in "${POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS[@]}"; do
