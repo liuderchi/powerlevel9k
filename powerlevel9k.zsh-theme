@@ -2018,7 +2018,7 @@ prompt_powerlevel9k_setup() {
     npm_lockfile \
     yarn_lockfile \
     node_version \
-    ram \
+    # ram \
     # cpu \
     dir_writable \
     # time \
